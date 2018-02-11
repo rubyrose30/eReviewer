@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using EReviewer.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace EReviewer.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -19,7 +20,7 @@ namespace EReviewer.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Student>().ToTable("Student");
+            //builder.Entity<Student>().ToTable("Student");
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
