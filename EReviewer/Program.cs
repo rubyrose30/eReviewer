@@ -7,6 +7,7 @@ using EReviewer.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace EReviewer
@@ -23,7 +24,7 @@ namespace EReviewer
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    DbInitializer.Initialize(context);
+                    //DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {
