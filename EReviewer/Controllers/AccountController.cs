@@ -16,6 +16,7 @@ using EReviewer.Services;
 
 namespace EReviewer.Controllers
 {
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
@@ -40,6 +41,21 @@ namespace EReviewer.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            List<UserListViewModel> model = new List<UserListViewModel>();
+            model = _userManager.Users.Select(u => new UserListViewModel
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+
+            }).ToList();
+            return View(model);
+
+    }
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -436,6 +452,7 @@ namespace EReviewer.Controllers
         {
             return View();
         }
+
 
         #region Helpers
 
