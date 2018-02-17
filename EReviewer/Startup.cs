@@ -36,6 +36,13 @@ namespace EReviewer
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AddUser", policy => policy.RequireClaim("Add User", "Add User"));
+                options.AddPolicy("EditUser", policy => policy.RequireClaim("Edit User", "Edit User"));
+                options.AddPolicy("DeleteUser", policy => policy.RequireClaim("Delete User", "Delete User"));
+            });
+
             services.AddMvc();
         }
 
