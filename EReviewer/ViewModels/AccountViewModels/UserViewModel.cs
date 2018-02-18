@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EReviewer.Models.AccountViewModels
+namespace EReviewer.ViewModels.AccountViewModels
 {
-    public class RegisterViewModel
+    public class UserViewModel
     {
         [Required]
         [EmailAddress]
