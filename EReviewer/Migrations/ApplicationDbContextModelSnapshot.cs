@@ -35,6 +35,12 @@ namespace EReviewer.Migrations
 
                     b.Property<string>("LastName");
 
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("SecurityStamp");
@@ -43,6 +49,14 @@ namespace EReviewer.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users");
                 });

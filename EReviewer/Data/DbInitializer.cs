@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EReviewer.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static void Initialize(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             //TODO: Add initial or default values here
 
@@ -17,12 +18,12 @@ namespace EReviewer.Data
             SeedUsers(userManager);
         }
 
-        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        public static void SeedRoles(RoleManager<IdentityRole<int>> roleManager)
         {
             //Add Admin User Roles
             if (!roleManager.RoleExistsAsync("Administrator").Result)
             {
-                var role = new IdentityRole
+                var role = new IdentityRole<int>
                 {
                     Name = "Administrator"
                 };
@@ -33,12 +34,13 @@ namespace EReviewer.Data
 
         public static void SeedUsers(UserManager<ApplicationUser> userManager)
         {
-            //Add Admin User
-            if (userManager.FindByNameAsync("Administator").Result == null)
+            var admin = userManager.Users.FirstOrDefault(u => u.UserName.Equals("admin", StringComparison.OrdinalIgnoreCase));
+
+            if (admin ==  null)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = "Administator",
+                    UserName = "admin",
                     Email = "admin@mail.com",
                     FirstName = "Administrator",
                     LastName = "Administrator"
@@ -49,6 +51,10 @@ namespace EReviewer.Data
                 if (userResult.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "Administrator").Wait();
+
+                    // Add User Claims for full name. You can check for the success of addition 
+                    userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName)).Wait();
+                    userManager.AddClaimAsync(user, new Claim("LastName", user.LastName)).Wait();
                 }
             }
         }

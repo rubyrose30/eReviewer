@@ -8,37 +8,39 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-
+<hr />
 <div class="row">
-    <div class="col-md-4">
-        <div class="btn-group">
+    <div class="col-md-12">
+        <div class="form-group">
             <a asp-area="" asp-controller="Account" asp-action="Register" class="btn btn-default">Add User</a>
         </div>
-        <table class="table table-bordered table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                    <th>Email</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
                     <tr>
-                        <td>@item.FirstName</td>
-                        <td>@item.LastName</td>
-                        <td>@item.Email</td>
-                        <td>
-                            <a asp-controller="Manage" asp-action="Index" asp-route-id="@item.Id" class="btn btn-default">Edit
-                            </a>
-                            <a  asp-action="DeleteUser" asp-route-id="@item.Id" class="btn btn-default">Delete
-                            </a>
-                        </td>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Action</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+                            <td>
+                                <a asp-controller="Manage" asp-action="Index" asp-route-id="@item.Id" class="btn btn-default">Edit</a>
+                                <a asp-controller="Manage" asp-action="DeleteUser" asp-route-id="@item.Id" class="btn btn-default">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

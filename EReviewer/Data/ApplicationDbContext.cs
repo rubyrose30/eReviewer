@@ -30,8 +30,6 @@ namespace EReviewer.Data
                 entity.Ignore(c => c.EmailConfirmed);
                 entity.Ignore(c => c.LockoutEnabled);
                 entity.Ignore(c => c.LockoutEnd);
-                entity.Ignore(c => c.NormalizedEmail);
-                entity.Ignore(c => c.NormalizedUserName);
                 entity.Ignore(c => c.PhoneNumber);
                 entity.Ignore(c => c.PhoneNumberConfirmed);
                 entity.Ignore(c => c.TwoFactorEnabled);
