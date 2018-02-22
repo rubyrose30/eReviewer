@@ -51,12 +51,13 @@ namespace EReviewer.Controllers
                 Id = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
+                UserName = u.UserName,
                 Email = u.Email,
 
             }).ToList();
             return View(model);
-
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -81,6 +82,7 @@ namespace EReviewer.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return RedirectToLocal(returnUrl);
                 }
 
@@ -122,6 +124,11 @@ namespace EReviewer.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Add User Claims for full name. You can check for the success of addition 
+                    await _userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName));
+                    await _userManager.AddClaimAsync(user, new Claim("LastName", user.LastName));
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
