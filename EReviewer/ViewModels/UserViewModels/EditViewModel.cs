@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace EReviewer.ViewModels.ManageViewModels
 {
-    public class IndexViewModel
+    public class EditViewModel
     {
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

@@ -55,6 +55,13 @@ namespace EReviewer.Data
                     // Add User Claims for full name. You can check for the success of addition 
                     userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName)).Wait();
                     userManager.AddClaimAsync(user, new Claim("LastName", user.LastName)).Wait();
+
+
+                    foreach (var claim in ClaimData.UserClaims)
+                    {
+                        userManager.AddClaimAsync(user, new Claim(claim, claim)).Wait();
+                    }
+
                 }
             }
         }

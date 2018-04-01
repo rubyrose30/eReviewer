@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using EReviewer.Models;
 using Microsoft.AspNetCore.Identity;
+using EReviewer.ViewModels.AccountViewModels;
 
 namespace EReviewer.Data
 {

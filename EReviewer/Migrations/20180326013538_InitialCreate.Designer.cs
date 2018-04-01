@@ -11,7 +11,7 @@ using System;
 namespace EReviewer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180221193023_InitialCreate")]
+    [Migration("20180326013538_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

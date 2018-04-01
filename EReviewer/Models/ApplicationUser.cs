@@ -12,5 +12,6 @@ namespace EReviewer.Models
         public string LastName { get; set; }
 
         public string FirstName { get; set; }
+
     }
 }

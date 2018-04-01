@@ -1,0 +1,17 @@
+﻿@model UserListViewModel
+
+@{
+    ViewData["Title"] = " ";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Delete" method="post">
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <div class="modal-body form-horizontal">
+        Are you sure you want to delete @Model.UserName?
+    </div>
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-default">Delete User</button>
+</form>

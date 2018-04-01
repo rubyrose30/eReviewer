@@ -26,6 +26,7 @@ namespace EReviewer.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private string id;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -42,21 +43,7 @@ namespace EReviewer.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            List<UserListViewModel> model = new List<UserListViewModel>();
-            model = _userManager.Users.Select(u => new UserListViewModel
-            {
-                Id = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                UserName = u.UserName,
-                Email = u.Email,
-
-            }).ToList();
-            return View(model);
-        }
+       
 
         [HttpGet]
         [AllowAnonymous]
@@ -93,50 +80,8 @@ namespace EReviewer.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(UserViewModel model, string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                var email = new MailAddress(model.Email);
-
-                var user = new ApplicationUser
-                {
-                    UserName = email.User,
-                    Email = email.Address,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName
-                };
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    // Add User Claims for full name. You can check for the success of addition 
-                    await _userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName));
-                    await _userManager.AddClaimAsync(user, new Claim("LastName", user.LastName));
-
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
+       
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]

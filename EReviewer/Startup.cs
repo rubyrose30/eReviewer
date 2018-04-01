@@ -64,9 +64,6 @@ namespace EReviewer
 
             app.UseAuthentication();
 
-            //Generate EF Core Seed Data
-            //DbInitializer.Initialize(userManager, roleManager);
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
