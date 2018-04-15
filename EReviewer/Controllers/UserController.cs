@@ -55,6 +55,7 @@ namespace EReviewer.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+
             List<UserListViewModel> model = new List<UserListViewModel>();
             model = _userManager.Users.Select(u => new UserListViewModel
             {
@@ -64,7 +65,7 @@ namespace EReviewer.Controllers
                 UserName = u.UserName,
                 Email = u.Email,
 
-            }).ToList();
+            }).ToList().Where(n => n.UserName != "admin").ToList();
             return View(model);
         }
 
