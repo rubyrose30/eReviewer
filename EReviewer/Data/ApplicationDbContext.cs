@@ -10,12 +10,24 @@ using EReviewer.ViewModels.AccountViewModels;
 
 namespace EReviewer.Data
 {
+    /// <summary>
+    /// This class will coordinates Entity Framework functionality for a given data model
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
+
+        /// <summary>
+        /// This code creates a DbSet property for each entity set. 
+        /// An entity set typically corresponds to a database table, 
+        /// and an entity corresponds to a row in the table.
+        /// </summary>
+        public DbSet<Subject>  Subjects { get; set; }
+
+        public DbSet<ExamType> ExamTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,6 +36,7 @@ namespace EReviewer.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            // This will rename the User Table and ignore the specified columns
             builder.Entity<ApplicationUser>(entity =>
             {
                 entity.ToTable(name: "Users");

@@ -54,23 +54,21 @@ namespace EReviewer.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            var model = new EditViewModel()
+            var model = new UserEditVM()
             {
                 Id = user.Id,
                 Email = user.Email,
-                Username = user.UserName,
+                UserName = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName
-
             };
-
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(EditViewModel model)
+        public async Task<IActionResult> Index(UserEditVM model)
         {
             if (!ModelState.IsValid)
             {
@@ -83,14 +81,11 @@ namespace EReviewer.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-
             user.Id = model.Id;
             user.Email = model.Email;
             user.LastName = model.LastName;
             user.FirstName = model.FirstName;
-            user.UserName = model.Username;
-
-
+            user.UserName = model.UserName;
 
             var setResult = await _userManager.UpdateAsync(user);
             if (!setResult.Succeeded)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EReviewer.ViewModels.AccountViewModels
 {
-    public class UserViewModel
+    public class UserAddVM
     {
         [Required]
         [EmailAddress]

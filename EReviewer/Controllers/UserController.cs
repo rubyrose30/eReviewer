@@ -52,12 +52,12 @@ namespace EReviewer.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
+        // GET: User
         [HttpGet]
         public IActionResult Index()
         {
-
-            List<UserListViewModel> model = new List<UserListViewModel>();
-            model = _userManager.Users.Select(u => new UserListViewModel
+            List<UserViewVM> model = new List<UserViewVM>();
+            model = _userManager.Users.Select(u => new UserViewVM
             {
                 Id = u.Id,
                 FirstName = u.FirstName,
@@ -65,15 +65,42 @@ namespace EReviewer.Controllers
                 UserName = u.UserName,
                 Email = u.Email,
 
-            }).ToList().Where(n => n.UserName != "admin").ToList();
+            }).Where(n => n.UserName != "admin").ToList();
             return View(model);
         }
 
+        // GET: User/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new UserViewVM()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return View(model);
+        }
+
+        // GET: User/Create
         [HttpGet]
         [Authorize(Policy = "AddUser")]
         public IActionResult Create(string returnUrl = null)
         {
-            var model = new UserViewModel
+            var model = new UserAddVM
             {
                 UserClaims = ClaimData.UserClaims.Select(c => new SelectListItem
                 {
@@ -86,10 +113,11 @@ namespace EReviewer.Controllers
             return View(model);
         }
 
+        // POST: User/Create
         [HttpPost]
         [Authorize(Policy = "AddUser")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UserViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Create(UserAddVM model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -128,95 +156,82 @@ namespace EReviewer.Controllers
             return View(model);
         }
 
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(UserController.Index), "User");
-            }
-        }
-
+        // GET: User/Edit/5
         [HttpGet]
         [Authorize(Policy = "EditUser")]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var model = new EditViewModel();
-
-            var user = await _userManager.FindByIdAsync(id);
-
-
-            if (user == null)
+            if (id == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound();
             }
 
-            model.Id = user.Id;
-            model.Username = user.UserName;
-            model.LastName = user.LastName;
-            model.FirstName = user.FirstName;
-            model.Email = user.Email;
-            model.StatusMessage = StatusMessage;
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new UserEditVM()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                Email = user.Email,
+                StatusMessage = StatusMessage,
+            };
 
             return View(model);
         }
 
+        // POST: User/Edit/5
         [HttpPost]
         [Authorize(Policy = "EditUser")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditViewModel model)
+        public async Task<IActionResult> Edit(UserEditVM model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(model);
-            }
-
-            var user = await _userManager.FindByIdAsync(model.Id.ToString());
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            if (model.Username != user.UserName || model.LastName != user.LastName || model.FirstName != user.FirstName)
-            {
-                user.Id = model.Id;
-                user.LastName = model.LastName;
-                user.FirstName = model.FirstName;
-                user.UserName = model.Username;
-                user.Email = model.Email;
-
-                var setResult = await _userManager.UpdateAsync(user);
-                if (!setResult.Succeeded)
+                var user = await _userManager.FindByIdAsync(model.Id.ToString());
+                if (user == null)
                 {
-                    throw new ApplicationException($"Unexpected error occurred setting profile for user with ID '{user.Id}'.");
+                    return NotFound();
                 }
-            }
 
-            StatusMessage = "Your profile has been updated";
-            return RedirectToAction(nameof(Index));
+                if (model.UserName != user.UserName || model.LastName != user.LastName || model.FirstName != user.FirstName)
+                {
+                    user.Id = model.Id;
+                    user.LastName = model.LastName;
+                    user.FirstName = model.FirstName;
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+
+                    var setResult = await _userManager.UpdateAsync(user);
+                    if (!setResult.Succeeded)
+                    {
+                        throw new ApplicationException($"Unexpected error occurred setting profile for user with ID '{user.Id}'.");
+                    }
+                }
+
+                StatusMessage = "Your profile has been updated";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
         }
 
-
+        // GET: User/Delete/5
         [HttpGet]
         [Authorize(Policy = "DeleteUser")]
         public async Task<IActionResult> Delete(string id)
         {
+            var user = await _userManager.FindByIdAsync(id);
 
-            var user = new ApplicationUser();
-
-            //if(user==null)
-            //{
-            user = await _userManager.FindByIdAsync(id);
-
-            var model = new UserListViewModel
+            var model = new UserViewVM
             {
                 UserName = user.UserName,
                 Id = user.Id
             };
-            //}
 
             if (user == null)
             {
@@ -226,10 +241,11 @@ namespace EReviewer.Controllers
             return View(model);
         }
 
+        // POST: User/Delete/5
         [HttpPost]
         [Authorize(Policy = "DeleteUser")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(UserListViewModel model)
+        public async Task<IActionResult> Delete(UserViewVM model)
         {
 
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
@@ -348,6 +364,18 @@ namespace EReviewer.Controllers
         }
 
         #region Helpers
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(UserController.Index), "User");
+            }
+        }
 
         private void AddErrors(IdentityResult result)
         {
