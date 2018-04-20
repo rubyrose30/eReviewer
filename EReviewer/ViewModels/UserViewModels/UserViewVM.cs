@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EReviewer.ViewModels.AccountViewModels
 {
-    public class UserListViewModel
+    public class UserViewVM
     {
         public int Id { get; set; }
 

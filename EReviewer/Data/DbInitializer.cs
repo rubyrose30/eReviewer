@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EReviewer.Data
 {
+    /// <summary>
+    /// This class will create a database when needed and loads test data into the new database.
+    /// </summary>
     public static class DbInitializer
     {
         public static void Initialize(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
@@ -55,7 +58,6 @@ namespace EReviewer.Data
                     // Add User Claims for full name. You can check for the success of addition 
                     userManager.AddClaimAsync(user, new Claim("FirstName", user.FirstName)).Wait();
                     userManager.AddClaimAsync(user, new Claim("LastName", user.LastName)).Wait();
-
 
                     foreach (var claim in ClaimData.UserClaims)
                     {
