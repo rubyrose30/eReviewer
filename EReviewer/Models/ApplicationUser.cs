@@ -13,5 +13,6 @@ namespace EReviewer.Models
 
         public string FirstName { get; set; }
 
+        public ICollection<UserExam> UserExams { get; set; }
     }
 }

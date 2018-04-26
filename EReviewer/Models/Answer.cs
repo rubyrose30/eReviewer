@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EReviewer.Models
 {
-    public class QuestionOption
+    public class Answer
     {
         [Key]
         public int Id { get; set; }
@@ -17,6 +17,11 @@ namespace EReviewer.Models
 
         public Question Question { get; set; }
 
-        public string Description { get; set; }
+        [ForeignKey("QuestionOption")]
+        public int? QuestionOptionId { get; set; }
+
+        public QuestionOption QuestionOption { get; set; }
+
+        public string AnswerText { get; set; }
     }
 }
