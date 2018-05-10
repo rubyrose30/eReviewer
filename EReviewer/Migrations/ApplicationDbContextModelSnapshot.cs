@@ -61,6 +61,19 @@ namespace EReviewer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EReviewer.Models.ExamType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExamTypes");
+                });
+
             modelBuilder.Entity("EReviewer.Models.Subject", b =>
                 {
                     b.Property<int>("Id")

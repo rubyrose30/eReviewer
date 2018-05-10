@@ -11,7 +11,7 @@ using System;
 namespace EReviewer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180417202737_InitialCreate")]
+    [Migration("20180420232734_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,19 @@ namespace EReviewer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EReviewer.Models.ExamType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExamTypes");
                 });
 
             modelBuilder.Entity("EReviewer.Models.Subject", b =>

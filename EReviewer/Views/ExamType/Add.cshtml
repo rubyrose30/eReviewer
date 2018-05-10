@@ -1,0 +1,29 @@
+﻿@model EReviewer.ViewModels.ExamTypeViewModels.ExamTypeAddVM
+
+@{
+    ViewData["Title"] = "Add Exam Type";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <form asp-action="Add">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-info">Back to List</a> |
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

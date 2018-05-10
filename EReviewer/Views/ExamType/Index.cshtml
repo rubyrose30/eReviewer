@@ -1,0 +1,38 @@
+﻿@model IEnumerable<EReviewer.ViewModels.ExamTypeViewModels.ExamTypeViewVM>
+
+@{
+    ViewData["Title"] = "Exam Type";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <a asp-area="" asp-controller="ExamType" asp-action="Add" class="btn btn-primary">Add Exam Type</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Exam Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                           
+                            <td>
+                               
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
