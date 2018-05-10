@@ -29,6 +29,8 @@ namespace EReviewer.Data
 
         public DbSet<ExamType> ExamTypes { get; set; }
 
+        public DbSet<Question> Questions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
