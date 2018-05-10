@@ -13,12 +13,13 @@ namespace EReviewer.Data
     /// </summary>
     public static class DbInitializer
     {
-        public static void Initialize(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public static void Initialize(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<int>> roleManager, ApplicationDbContext context)
         {
             //TODO: Add initial or default values here
 
             SeedRoles(roleManager);
             SeedUsers(userManager);
+            SeedDefaultValues(context);
         }
 
         public static void SeedRoles(RoleManager<IdentityRole<int>> roleManager)
@@ -39,7 +40,7 @@ namespace EReviewer.Data
         {
             var admin = userManager.Users.FirstOrDefault(u => u.UserName.Equals("admin", StringComparison.OrdinalIgnoreCase));
 
-            if (admin ==  null)
+            if (admin == null)
             {
                 var user = new ApplicationUser
                 {
@@ -66,6 +67,50 @@ namespace EReviewer.Data
 
                 }
             }
+        }
+
+        public static void SeedDefaultValues(ApplicationDbContext context)
+        {
+            context.Database.EnsureCreated();
+
+            // Look for any Subject.
+            if (context.Subjects.Any())
+            {
+                return;   // DB has been seeded
+            }
+
+            var subjects = new Subject[]
+            {
+                new Subject{ Code = "", Name = "Algebra",  Description = "Study of mathematical symbols and the rules for manipulating these symbols; it is a unifying thread of almost all of mathematics."},
+                new Subject{ Code = "", Name = "Trigonometry",  Description = "Study of relationships involving lengths and angles of triangles."},
+                new Subject{ Code = "", Name = "Analytic Geometry",  Description = "Study of geometry using a coordinate system."},
+                new Subject{ Code = "", Name = "Differential Calculus",  Description = "Subfield of calculus concerned with the study of the rates at which quantities change."},
+                new Subject{ Code = "", Name = "Integral Calculus",  Description = "Subfield of calculus concerned with the study of the notion of an integral, its properties and methods of calculation."},
+            };
+
+            // Add values to Subjects
+            context.Subjects.AddRange(subjects);
+
+            // Save all changes in the database
+            context.SaveChanges();
+
+            // Look for any Exam Type.
+            if (context.ExamTypes.Any())
+            {
+                return;   // DB has been seeded
+            }
+
+            var examTypes = new ExamType[]
+            {
+                new ExamType{ Name = "Identification"},
+                new ExamType{ Name = "Multiple Choice"}
+            };
+
+            // Add values to ExamTypes
+            context.ExamTypes.AddRange(examTypes);
+
+            // Save all changes in the database
+            context.SaveChanges();
         }
     }
 }

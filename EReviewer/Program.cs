@@ -29,7 +29,7 @@ namespace EReviewer
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
-                    DbInitializer.Initialize(userManager, roleManager);
+                    DbInitializer.Initialize(userManager, roleManager, context);
                 }
                 catch (Exception ex)
                 {

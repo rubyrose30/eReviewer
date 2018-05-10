@@ -74,16 +74,16 @@ namespace EReviewer.Controllers
             return View(model);
         }
 
-        // GET: Subject/Create
-        public IActionResult Create()
+        // GET: Subject/Add
+        public IActionResult Add()
         {
             return View();
         }
 
-        // POST: Subject/Create
+        // POST: Subject/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SubjectAddVM model)
+        public async Task<IActionResult> Add(SubjectAddVM model)
         {
             if (ModelState.IsValid)
             {
