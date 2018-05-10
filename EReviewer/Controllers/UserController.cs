@@ -95,10 +95,10 @@ namespace EReviewer.Controllers
             return View(model);
         }
 
-        // GET: User/Create
+        // GET: User/Add
         [HttpGet]
         [Authorize(Policy = "AddUser")]
-        public IActionResult Create(string returnUrl = null)
+        public IActionResult Add(string returnUrl = null)
         {
             var model = new UserAddVM
             {
@@ -113,11 +113,11 @@ namespace EReviewer.Controllers
             return View(model);
         }
 
-        // POST: User/Create
+        // POST: User/Add
         [HttpPost]
         [Authorize(Policy = "AddUser")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UserAddVM model, string returnUrl = null)
+        public async Task<IActionResult> Add(UserAddVM model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)

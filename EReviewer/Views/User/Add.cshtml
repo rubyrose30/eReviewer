@@ -1,13 +1,13 @@
 ﻿@model UserAddVM
 @{
-    ViewData["Title"] = "Create User Account";
+    ViewData["Title"] = "Add User Account";
 }
 
 <h3>@ViewData["Title"]</h3>
 <hr />
 <div class="row">
     <div class="col-md-9">
-        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" asp-action="Create">
+        <form asp-route-returnUrl="@ViewData["ReturnUrl"]" asp-action="Add">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email"></label>

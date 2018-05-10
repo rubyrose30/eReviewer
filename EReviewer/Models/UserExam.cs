@@ -17,11 +17,6 @@ namespace EReviewer.Models
 
         public Exam Exam { get; set; }
 
-        [Required, ForeignKey("Question")]
-        public int QuestionId { get; set; }
-
-        public Question Question { get; set; }
-
         [Required, ForeignKey("ApplicationUser")]
         public int UserId { get; set; }
 

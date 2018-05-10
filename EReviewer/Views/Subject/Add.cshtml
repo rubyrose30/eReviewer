@@ -1,14 +1,14 @@
 ﻿@model EReviewer.ViewModels.SubjectViewModels.SubjectAddVM
 
 @{
-    ViewData["Title"] = "Create Subject";
+    ViewData["Title"] = "Add Subject";
 }
 
 <h3>@ViewData["Title"]</h3>
 <hr />
 <div class="row">
     <div class="col-md-9">
-        <form asp-action="Create">
+        <form asp-action="Add">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Code" class="control-label"></label>
