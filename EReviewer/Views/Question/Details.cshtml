@@ -1,0 +1,36 @@
+﻿@model EReviewer.ViewModels.QuestionViewModels.QuestionViewVM
+
+@{
+    ViewData["Title"] = "View Question";
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Subject"></label>
+            <label class="form-control">@Model.Subject</label>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExamType"></label>
+            <label class="form-control">@Model.ExamType</label>
+        </div>
+        <div class="form-group">
+            <label asp-for="Question"></label>
+            <label class="form-control">@Model.Question</label>
+        </div>
+        <div class="form-group">
+            <label asp-for="Points"></label>
+            <label class="form-control">@Model.Points</label>
+        </div>
+        <div class="form-group">
+            <label asp-for="Answer"></label>
+            <label class="form-control">@Model.Answer</label>
+        </div>
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-info">Back to List</a> |
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        </div>
+    </div>
+</div>

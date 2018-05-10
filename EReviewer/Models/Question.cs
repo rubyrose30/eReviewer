@@ -33,8 +33,13 @@ namespace EReviewer.Models
 
         public int Points { get; set; }
 
-        public ICollection<QuestionOption> QuestionOptions { get; set; }
+        [ForeignKey("QuestionOption")]
+        public int? AnswerId { get; set; }
 
-        public ICollection<Answer> Answers { get; set; }
+        public QuestionOption Answer { get; set; }
+
+        public string AnswerText { get; set; }
+
+        public ICollection<QuestionOption> Options { get; set; }
     }
 }

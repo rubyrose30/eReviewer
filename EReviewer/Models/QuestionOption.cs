@@ -18,5 +18,7 @@ namespace EReviewer.Models
         public Question Question { get; set; }
 
         public string Description { get; set; }
+
+        public bool IsAnswer { get; set; }
     }
 }
